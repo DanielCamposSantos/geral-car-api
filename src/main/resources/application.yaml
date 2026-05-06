@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: geral-car
+
+
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+
+  # H2 CLIENT
+  h2:
+    console:
+      enabled: true
+      path: /h2
+
+  # JPA, SQL
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  web:
+    error:
+      include-stacktrace: never
+
+file:
+  upload-dir: imagens
