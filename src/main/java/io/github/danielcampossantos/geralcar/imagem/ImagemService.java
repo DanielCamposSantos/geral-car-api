@@ -1,7 +1,7 @@
 package io.github.danielcampossantos.geralcar.imagem;
 
-import io.github.danielcampossantos.geralcar.domain.Veiculo;
 import io.github.danielcampossantos.geralcar.domain.Imagem;
+import io.github.danielcampossantos.geralcar.domain.Veiculo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

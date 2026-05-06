@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<DefaultErrorMessage> handleBadRequestException(BadRequestException e) {
-        var error = new DefaultErrorMessage(HttpStatus.BAD_REQUEST.value(),e.getReason());
+        var error = new DefaultErrorMessage(HttpStatus.BAD_REQUEST.value(), e.getReason());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestPartException.class)
     public ResponseEntity<DefaultErrorMessage> handleMissingServletRequestPartException(
             MissingServletRequestPartException e) {
-        var error = new DefaultErrorMessage(HttpStatus.BAD_REQUEST.value(),e.getLocalizedMessage());
+        var error = new DefaultErrorMessage(HttpStatus.BAD_REQUEST.value(), e.getLocalizedMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 

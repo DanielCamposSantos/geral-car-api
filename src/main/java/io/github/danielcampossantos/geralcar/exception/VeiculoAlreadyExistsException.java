@@ -5,6 +5,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class VeiculoAlreadyExistsException extends ResponseStatusException {
     public VeiculoAlreadyExistsException(String message) {
-        super(HttpStatus.BAD_REQUEST,message);
+        super(HttpStatus.BAD_REQUEST, message);
     }
 }

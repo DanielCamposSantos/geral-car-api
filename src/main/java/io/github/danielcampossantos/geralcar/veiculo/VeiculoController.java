@@ -1,7 +1,7 @@
 package io.github.danielcampossantos.geralcar.veiculo;
 
-import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoPostRequest;
 import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoGetResponse;
+import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoPostRequest;
 import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoPostResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,11 @@ public class VeiculoController {
     private final VeiculoService service;
 
     @GetMapping
-    public ResponseEntity<Page<VeiculoGetResponse>> findAll(Pageable pageable) {
-        return ResponseEntity.ok(service.findAllPage(pageable));
+    public ResponseEntity<Page<VeiculoGetResponse>> findAll(
+            @RequestParam(required = false) Integer ano,
+            @RequestParam(required = false) String combustivel,
+            Pageable pageable) {
+        return ResponseEntity.ok(service.findAll(ano, combustivel, pageable));
     }
 
     @GetMapping("/{id}")
@@ -41,7 +44,7 @@ public class VeiculoController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }

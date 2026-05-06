@@ -16,7 +16,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class SecurityConfig {
@@ -33,7 +33,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
@@ -54,9 +54,9 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(Arrays.asList("*"));     // qualquer origem
-        config.setAllowedMethods(Arrays.asList("*"));     // GET, POST, PUT, DELETE...
-        config.setAllowedHeaders(Arrays.asList("*"));     // qualquer header
+        config.setAllowedOrigins(List.of("*"));     // qualquer origem
+        config.setAllowedMethods(List.of("*"));     // GET, POST, PUT, DELETE...
+        config.setAllowedHeaders(List.of("*"));     // qualquer header
 
         // IMPORTANTE: com "*" isso deve ser false
         config.setAllowCredentials(false);

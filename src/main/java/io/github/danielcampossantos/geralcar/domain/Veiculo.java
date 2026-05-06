@@ -31,8 +31,9 @@ public class Veiculo {
     @Column(nullable = false)
     private Double avaliacao;
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TipoCombustivel combustivel;
-    @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Imagem> imagens = new ArrayList<>();
 
 }
