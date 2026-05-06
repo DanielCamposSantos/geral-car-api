@@ -1,5 +1,6 @@
 package io.github.danielcampossantos.geralcar.veiculo.dto;
 
+import io.github.danielcampossantos.geralcar.domain.TipoCombustivel;
 import jakarta.validation.constraints.*;
 
 public record VeiculoPostRequest(
@@ -25,8 +26,8 @@ public record VeiculoPostRequest(
         @NotEmpty(message = "A descrição é obrigatória")
         String descricao,
 
-        @NotEmpty(message = "O combustivel é obrigatório")
-        String combustivel,
+        @NotNull(message = "O combustivel é obrigatório")
+        TipoCombustivel combustivel,
 
         @NotNull(message = "A avaliação é obrigatória")
         @Min(value = 0)

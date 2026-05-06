@@ -31,7 +31,7 @@ public class Veiculo {
     @Column(nullable = false)
     private Double avaliacao;
     @Column(nullable = false)
-    private Double combustivel;
+    private TipoCombustivel combustivel;
     @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Imagem> imagens = new ArrayList<>();
 

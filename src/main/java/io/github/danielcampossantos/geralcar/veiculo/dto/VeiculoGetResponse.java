@@ -1,6 +1,7 @@
 package io.github.danielcampossantos.geralcar.veiculo.dto;
 
 
+import io.github.danielcampossantos.geralcar.domain.TipoCombustivel;
 import io.github.danielcampossantos.geralcar.imagem.dto.ImagemGetResponse;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public record VeiculoGetResponse(
         String cor,
         Integer ano,
         Long quilometragem,
+        TipoCombustivel combustivel,
         String descricao,
         Double avaliacao,
         List<ImagemGetResponse> imagens
