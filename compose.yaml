@@ -1,0 +1,14 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${ENV_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${ENV_POSTGRES_PASSWORD}
+      POSTGRES_DB: geral-car-api
+    ports:
+      - "5432:5432"
+    volumes:
+      - geralcar_db:/var/lib/postgres
+volumes:
+  geralcar_db:

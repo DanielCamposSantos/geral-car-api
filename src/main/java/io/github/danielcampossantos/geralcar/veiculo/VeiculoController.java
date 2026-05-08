@@ -1,5 +1,6 @@
 package io.github.danielcampossantos.geralcar.veiculo;
 
+import io.github.danielcampossantos.geralcar.veiculo.dto.FiltrosGetResponse;
 import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoGetResponse;
 import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoPostRequest;
 import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoPostResponse;
@@ -33,6 +34,12 @@ public class VeiculoController {
         var response = service.findByIdOrThrowBadRequestException(id);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/filtros")
+    public ResponseEntity<FiltrosGetResponse> getAllFiltros(){
+        return ResponseEntity.ok(service.getFiltros());
+    }
+
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<VeiculoPostResponse> save(@Valid @RequestPart("data") VeiculoPostRequest request,

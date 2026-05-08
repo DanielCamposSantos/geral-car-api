@@ -1,8 +1,10 @@
 package io.github.danielcampossantos.geralcar.veiculo;
 
+import io.github.danielcampossantos.geralcar.domain.TipoCombustivel;
 import io.github.danielcampossantos.geralcar.domain.Veiculo;
 import io.github.danielcampossantos.geralcar.exception.BadRequestException;
 import io.github.danielcampossantos.geralcar.imagem.ImagemService;
+import io.github.danielcampossantos.geralcar.veiculo.dto.FiltrosGetResponse;
 import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoGetResponse;
 import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoPostRequest;
 import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoPostResponse;
@@ -39,6 +41,11 @@ public class VeiculoService {
                 .orElseThrow(() -> new BadRequestException("Veículo não encontrado com id informado."));
 
         return veiculoMapper.toVeiculoGetResponse(veiculoFoundById);
+    }
+
+    public FiltrosGetResponse getFiltros() {
+        var anos = repository.getAllAnosDistinct();
+        return new FiltrosGetResponse(anos, List.of(TipoCombustivel.values()));
     }
 
     @SneakyThrows
