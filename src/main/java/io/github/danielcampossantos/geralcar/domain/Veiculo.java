@@ -2,6 +2,7 @@ package io.github.danielcampossantos.geralcar.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class Veiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
