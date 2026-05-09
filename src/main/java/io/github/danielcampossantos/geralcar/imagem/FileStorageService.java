@@ -52,7 +52,7 @@ public class FileStorageService {
         }
     }
 
-    private static void deleteCurrentFile(Path veiculoPath) throws IOException {
+    public static void deleteCurrentFile(Path veiculoPath) throws IOException {
         Files.delete(veiculoPath);
     }
 

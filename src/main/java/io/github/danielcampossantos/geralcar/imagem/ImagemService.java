@@ -2,11 +2,15 @@ package io.github.danielcampossantos.geralcar.imagem;
 
 import io.github.danielcampossantos.geralcar.domain.Imagem;
 import io.github.danielcampossantos.geralcar.domain.Veiculo;
+import io.github.danielcampossantos.geralcar.exception.BadRequestException;
+import io.github.danielcampossantos.geralcar.veiculo.VeiculoFinder;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,25 +20,55 @@ import java.util.List;
 public class ImagemService {
     private final ImagemRepository repository;
     private final FileStorageService service;
+    private final VeiculoFinder veiculoFinder;
+
+    @SneakyThrows
+    public List<Imagem> saveImages(List<MultipartFile> images, Long veiculoId) {
+        List<Imagem> imagens = new ArrayList<>();
+
+        var savedVeiculo = veiculoFinder.findByIdOrThrow(veiculoId);
+
+        addImagesToArrayList(images, savedVeiculo, imagens);
+
+        return repository.saveAll(imagens);
+    }
+
+    public void deleteVeiculoImages(Long id) {
+        var veiculoToDelete = veiculoFinder.findByIdOrThrow(id);
+        service.deleteImageFolder(veiculoToDelete.getId());
+    }
+
+    public void deleteVeiculoImage(Long veiculoId, Long imagemId) {
+        var target = veiculoFinder.findByIdOrThrow(veiculoId);
+        var imagens = target.getImagens();
+        var savedImagem = findImageByIdOrThrowBadRequest(imagemId, imagens);
+        deleteImageFromFolder(savedImagem);
+        repository.delete(savedImagem);
+    }
 
 
-    public List<Imagem> saveImages(List<MultipartFile> images, Veiculo veiculo) throws IOException {
-        List<Imagem> imagems = new ArrayList<>();
 
+    private void addImagesToArrayList(List<MultipartFile> images, Veiculo savedVeiculo, List<Imagem> imagens) throws IOException {
         for (MultipartFile file : images) {
-            String path = service.storeImage(file, veiculo);
-            var imagem = setImagemAttributes(path, veiculo);
-            imagems.add(imagem);
+            String path = service.storeImage(file, savedVeiculo);
+            var imagem = setImagemAttributes(path, savedVeiculo);
+            imagens.add(imagem);
         }
-
-        return repository.saveAll(imagems);
     }
 
-
-    public void deleteVeiculoImage(Veiculo veiculo) {
-        service.deleteImageFolder(veiculo.getId());
+    private static void deleteImageFromFolder(Imagem savedImagem) {
+        try {
+            FileStorageService.deleteCurrentFile(Path.of(savedImagem.getImagePath()));
+        } catch (IOException e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
+    private static Imagem findImageByIdOrThrowBadRequest(Long imagemId, List<Imagem> imagens) {
+        return imagens.stream().filter(imagem -> imagem.getId().equals(imagemId))
+                .findFirst()
+                .orElseThrow(() -> new BadRequestException("Imagem não encontrada"));
+    }
 
     private Imagem setImagemAttributes(String path, Veiculo veiculo) {
         var imagem = new Imagem();

@@ -1,7 +1,6 @@
 package io.github.danielcampossantos.geralcar.veiculo;
 
 import io.github.danielcampossantos.geralcar.domain.TipoCombustivel;
-import io.github.danielcampossantos.geralcar.domain.Veiculo;
 import io.github.danielcampossantos.geralcar.exception.BadRequestException;
 import io.github.danielcampossantos.geralcar.imagem.ImagemService;
 import io.github.danielcampossantos.geralcar.veiculo.dto.FiltrosGetResponse;
@@ -24,6 +23,7 @@ public class VeiculoService {
     private final VeiculoRepository repository;
     private final VeiculoMapper veiculoMapper;
     private final ImagemService imagemService;
+    private final VeiculoFinder veiculoFinder;
 
 
     public Page<VeiculoGetResponse> findAll(Integer ano, String combustivel, Pageable pageable) {
@@ -54,7 +54,7 @@ public class VeiculoService {
 
         var savedVeiculo = repository.save(veiculoToSave);
 
-        var savedImages = imagemService.saveImages(images, savedVeiculo);
+        var savedImages = imagemService.saveImages(images, savedVeiculo.getId());
 
         savedVeiculo.getImagens().addAll(savedImages);
 
@@ -62,15 +62,12 @@ public class VeiculoService {
     }
 
     public void deleteById(Long id) {
-        var veiculoToDelete = assertsVeiculoExists(id);
+        var veiculoToDelete = veiculoFinder.findByIdOrThrow(id);
+        imagemService.deleteVeiculoImages(veiculoToDelete.getId());
         repository.deleteById(veiculoToDelete.getId());
-        imagemService.deleteVeiculoImage(veiculoToDelete);
     }
 
-    public Veiculo assertsVeiculoExists(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Veículo não existe"));
-    }
+
 
 
 }
