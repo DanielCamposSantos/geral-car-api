@@ -1,10 +1,7 @@
 package io.github.danielcampossantos.geralcar.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +30,11 @@ public class Veiculo {
     @Column(nullable = false)
     private Double avaliacao;
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private TipoCombustivel combustivel;
     @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    @ToString.Exclude
     private List<Imagem> imagens = new ArrayList<>();
 
 }

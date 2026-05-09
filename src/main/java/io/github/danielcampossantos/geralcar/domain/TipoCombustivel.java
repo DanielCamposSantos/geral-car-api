@@ -8,7 +8,8 @@ public enum TipoCombustivel {
     FLEX,
     DIESEL,
     GNV,
-    ELETRICO;
+    ELETRICO,
+    HIBRIDO;
 
     @JsonCreator
     public static TipoCombustivel fromString(String key) {
