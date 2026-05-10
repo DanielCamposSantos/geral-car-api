@@ -41,9 +41,11 @@ public class ImagemService {
     public void deleteVeiculoImage(Long veiculoId, Long imagemId) {
         var target = veiculoFinder.findByIdOrThrow(veiculoId);
         var imagens = target.getImagens();
-        var savedImagem = findImageByIdOrThrowBadRequest(imagemId, imagens);
-        deleteImageFromFolder(savedImagem);
-        repository.delete(savedImagem);
+        var imageToDelete = findImageByIdOrThrowBadRequest(imagemId, imagens);
+
+        imagens.remove(imageToDelete);
+        deleteImageFromFolder(imageToDelete);
+        repository.delete(imageToDelete);
     }
 
 
