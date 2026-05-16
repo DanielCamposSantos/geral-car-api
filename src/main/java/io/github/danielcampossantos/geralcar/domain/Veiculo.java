@@ -15,23 +15,32 @@ public class Veiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String marca;
+
     @Column(nullable = false)
     private String modelo;
+
     @Column(nullable = false)
     private String cor;
+
     @Column(nullable = false)
     private Integer ano;
+
     @Column(nullable = false)
     private Long quilometragem;
+
     @Column(nullable = false)
     private String descricao;
-    @Column(nullable = false)
-    private Double avaliacao;
+
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private TipoCombustivel combustivel;
+
+    @Column(nullable = false)
+    private boolean destaque;
+
     @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     @ToString.Exclude

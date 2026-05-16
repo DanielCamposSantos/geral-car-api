@@ -78,6 +78,11 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
             <artifactId>byte-buddy-agent</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -119,6 +124,7 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd">
                 <configuration>
                     <argLine>
                         -javaagent:"${settings.localRepository}/net/bytebuddy/byte-buddy-agent/1.17.8/byte-buddy-agent-1.17.8.jar"
+                        -Dspring:
                     </argLine>
                 </configuration>
             </plugin>

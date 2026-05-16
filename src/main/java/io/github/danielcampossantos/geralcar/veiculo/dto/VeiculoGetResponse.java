@@ -15,7 +15,7 @@ public record VeiculoGetResponse(
         Long quilometragem,
         TipoCombustivel combustivel,
         String descricao,
-        Double avaliacao,
+        Boolean destaque,
         List<ImagemGetResponse> imagens
 
 ) {

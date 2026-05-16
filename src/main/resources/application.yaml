@@ -32,5 +32,9 @@ spring:
     error:
       include-stacktrace: never
 
+  threads:
+    virtual:
+      enabled: true
+
 file:
   upload-dir: imagens

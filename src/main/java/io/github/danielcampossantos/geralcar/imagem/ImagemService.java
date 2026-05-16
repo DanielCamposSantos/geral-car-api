@@ -49,7 +49,6 @@ public class ImagemService {
     }
 
 
-
     private void addImagesToArrayList(List<MultipartFile> images, Veiculo savedVeiculo, List<Imagem> imagens) throws IOException {
         for (MultipartFile file : images) {
             String path = service.storeImage(file, savedVeiculo);
