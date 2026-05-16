@@ -13,6 +13,12 @@ public enum TipoCombustivel {
 
     @JsonCreator
     public static TipoCombustivel fromString(String key) {
-        return TipoCombustivel.valueOf(key.toUpperCase());
+        if (key == null) return null;
+        for (TipoCombustivel tipo : TipoCombustivel.values()) {
+            if (tipo.name().equalsIgnoreCase(key)) {
+                return tipo;
+            }
+        }
+        throw new IllegalArgumentException("Combustível inválido: " + key);
     }
 }

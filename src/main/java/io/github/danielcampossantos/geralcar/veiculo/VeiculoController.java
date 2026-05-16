@@ -1,13 +1,11 @@
 package io.github.danielcampossantos.geralcar.veiculo;
 
-import io.github.danielcampossantos.geralcar.veiculo.dto.FiltrosGetResponse;
-import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoGetResponse;
-import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoPostRequest;
-import io.github.danielcampossantos.geralcar.veiculo.dto.VeiculoPostResponse;
+import io.github.danielcampossantos.geralcar.veiculo.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +21,12 @@ public class VeiculoController {
 
     @GetMapping
     public ResponseEntity<Page<VeiculoGetResponse>> findAll(
+            @RequestParam(required = false) String marca,
+            @RequestParam(required = false) String modelo,
             @RequestParam(required = false) Integer ano,
             @RequestParam(required = false) String combustivel,
-            Pageable pageable) {
-        return ResponseEntity.ok(service.findAll(ano, combustivel, pageable));
+            @PageableDefault(size = 6) Pageable pageable) {
+        return ResponseEntity.ok(service.findAll(marca, modelo, ano, combustivel, pageable));
     }
 
     @GetMapping("/{id}")
@@ -36,7 +36,7 @@ public class VeiculoController {
     }
 
     @GetMapping("/filtros")
-    public ResponseEntity<FiltrosGetResponse> getAllFiltros(){
+    public ResponseEntity<FiltrosGetResponse> getAllFiltros() {
         return ResponseEntity.ok(service.getFiltros());
     }
 
@@ -50,9 +50,31 @@ public class VeiculoController {
     }
 
 
+    @PutMapping()
+    public ResponseEntity<Void> update(@Valid @RequestBody VeiculoPutRequest request) {
+        service.update(request);
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/destaques")
+    public ResponseEntity<List<VeiculoGetResponse>> findAllDestaque() {
+        return ResponseEntity.ok().body(service.findAllDestaque());
+    }
+
+    @GetMapping("/destaques/count")
+    public ResponseEntity<Integer> getDestaqueCount() {
+        return ResponseEntity.ok(service.getDestaqueCount());
+    }
+
+    @PatchMapping("/destaques/{id}")
+    public ResponseEntity<Void> toggleDestaque(@PathVariable Long id, @RequestParam Boolean destaque) {
+        service.toggleDestaque(id, destaque);
         return ResponseEntity.noContent().build();
     }
 }

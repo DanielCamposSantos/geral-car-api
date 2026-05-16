@@ -3,7 +3,10 @@ package io.github.danielcampossantos.geralcar.veiculo.dto;
 import io.github.danielcampossantos.geralcar.domain.TipoCombustivel;
 import jakarta.validation.constraints.*;
 
-public record VeiculoPostRequest(
+public record VeiculoPutRequest(
+        @NotEmpty(message = "O id é obrigatorio")
+        Long id,
+
         @NotEmpty(message = "A marca é obrigatória")
         String marca,
 
@@ -31,6 +34,5 @@ public record VeiculoPostRequest(
 
         @NotNull(message = "A informação de destaque é obrigatória")
         Boolean destaque
-
 ) {
 }

@@ -94,8 +94,8 @@ class FileStorageServiceTest {
     @Test
     @DisplayName("storeImage replaces existing file when same path is used")
     void storeImage_ReplacesExistingFile_WhenSamePathIsUsed() throws IOException {
-        var  contentBytes1 = "fake image content 1".getBytes();
-        var  contentBytes2 = "fake image content 2".getBytes();
+        var contentBytes1 = "fake image content 1".getBytes();
+        var contentBytes2 = "fake image content 2".getBytes();
 
         var file = new MockMultipartFile(
                 "file",
@@ -130,7 +130,7 @@ class FileStorageServiceTest {
     @Test
     @DisplayName("storeImage throws StringIndexOutOfBoundsException when file has no name")
     void storeImage_ThrowsStringIndexOutOfBoundsException_WhenFileHasNoName() {
-        var  contentBytes = "fake image content".getBytes();
+        var contentBytes = "fake image content".getBytes();
 
         var file = new MockMultipartFile(
                 "file",
@@ -145,6 +145,20 @@ class FileStorageServiceTest {
     }
 
     @Test
-    void deleteImageFolder() {
+    @SneakyThrows
+    void deleteImageFolder_DeletesImageFolder_WhenSuccessful() {
+        var contentBytes = "fake image content".getBytes();
+
+        var file = new MockMultipartFile(
+                "file",
+                "foto.jpg",
+                "image/jpeg",
+                contentBytes
+        );
+
+        var savedPath = service.storeImage(file, veiculo);
+
+        Assertions.assertThatNoException().isThrownBy(() -> service.deleteImageFolder(veiculo.getId()));
+        Assertions.assertThat(Path.of(savedPath)).doesNotExist();
     }
 }

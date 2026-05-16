@@ -15,7 +15,6 @@ public class VeiculoUtils {
                 .ano(2023)
                 .quilometragem(15000L)
                 .descricao("Veículo em excelente estado, único dono")
-                .avaliacao(4.5)
                 .combustivel(TipoCombustivel.FLEX)
                 .imagens(new ArrayList<>())
                 .build();
